@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Menus from "./(menus)/Menus";
 import "./globals.css";
+import ReduxProvider from "./provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,9 +28,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`w-full h-full ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <ReduxProvider>
+          <div className="w-full h-full flex flex-row">
+            <Menus />
+            <div className="h-full flex-1 flex-row overflow-hidden">
+              {children}
+            </div>
+          </div>
+        </ReduxProvider>
       </body>
     </html>
   );

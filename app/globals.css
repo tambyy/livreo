@@ -5,19 +5,129 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
+  --foreground-2: #555555;
+  --purple: #5800b5;
+  --light-purple: #f3f0f6;
 
+  --status-to-deliver: #cb234a;
+  --status-waiting: #cf720f;
+  --status-processing: #0e72c9;
+  --status-delivered: #0c7022;
+  --status-canceled: #980c0a;
+
+  --fg-status-to-deliver: #cb234a11;
+  --fg-status-waiting: #cf720f11;
+  --fg-status-processing: #0e72c911;
+  --fg-status-delivered: #0c702211;
+  --fg-status-canceled: #980c0a11;
+
+  --fg-delivery-past: #999999;
+  --fg-delivery-present: #0e72c9;
+  --fg-delivery-coming: #0c7022;
+}
+/*
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
 }
+*/
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    background-color: transparent;
+    height: 12px;
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-clip: padding-box;
+    background-color: rgba(0, 0, 0, 0.18);
+    border: 2px solid transparent;
+    border-radius: 6px;
+  }
+
+  :hover::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
+  ::-webkit-scrollbar-track {
+    display: none;
+  }
+}
+
+::selection {
+  background-color: #12a0f3;
+  color: white;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.delivery-status-to-deliver {
+  color: var(--status-to-deliver);
+}
+
+.delivery-status-waiting {
+  color: var(--status-waiting);
+}
+
+.delivery-status-processing {
+  color: var(--status-processing);
+}
+
+.delivery-status-delivered {
+  color: var(--status-delivered);
+}
+
+.delivery-status-canceled {
+  color: var(--status-canceled);
+}
+
+.delivery-comment-status-to-deliver {
+  color: var(--status-to-deliver);
+  background-color: var(--fg-status-to-deliver);
+}
+
+.delivery-comment-status-waiting {
+  color: var(--status-waiting);
+  background-color: var(--fg-status-waiting);
+}
+
+.delivery-comment-status-processing {
+  color: var(--status-processing);
+  background-color: var(--fg-status-processing);
+}
+
+.delivery-comment-status-delivered {
+  color: var(--status-delivered);
+  background-color: var(--fg-status-delivered);
+}
+
+.delivery-comment-status-canceled {
+  color: var(--status-canceled);
+  background-color: var(--fg-status-canceled);
+}
+
+.delivery-date-past {
+  color: var(--fg-delivery-past);
+}
+
+.delivery-date-present {
+  color: var(--fg-delivery-present);
+}
+
+.delivery-date-coming {
+  color: var(--fg-delivery-coming);
 }
 
 @layer utilities {
