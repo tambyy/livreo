@@ -14,13 +14,14 @@ export default function Agenda({
   renderHeader,
   renderItem,
   renderTimeHeader,
-  onDatesChanged,
-  onDropItem,
   scrollThreshold = 200,
   list = false,
   fromHour = 8,
   toHour = 20,
   cellHeight = 24,
+  columnWidth = 256,
+  onDatesChanged,
+  onDropItem,
 }: {
   date?: Date;
   dateItems: (date: any) => any[];
@@ -30,13 +31,14 @@ export default function Agenda({
   renderHeader: (date: any) => React.ReactNode;
   renderItem: (item: any) => React.ReactNode;
   renderTimeHeader: React.ReactNode;
-  onDatesChanged?: (from: Date, to: Date) => void;
-  onDropItem: (date: Date, hour: number, minute: number, item: any) => void;
   scrollThreshold?: number;
   list?: boolean;
   fromHour?: number;
   toHour?: number;
   cellHeight?: number;
+  columnWidth?: number;
+  onDatesChanged?: (from: Date, to: Date) => void;
+  onDropItem: (date: Date, hour: number, minute: number, item: any) => void;
 }) {
   // From date
   const [from, setFrom] = useState<Date>(() => {
@@ -230,6 +232,7 @@ export default function Agenda({
             fromHour={fromHour}
             toHour={toHour}
             cellHeight={cellHeight}
+            columnWidth={columnWidth}
           />
         ))}
       </div>

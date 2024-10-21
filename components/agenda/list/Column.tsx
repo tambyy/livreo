@@ -18,6 +18,7 @@ export default function Column({
   fromHour,
   toHour,
   cellHeight,
+  columnWidth,
 }: {
   date: any;
   list: boolean;
@@ -32,6 +33,7 @@ export default function Column({
   fromHour: number;
   toHour: number;
   cellHeight: number;
+  columnWidth: number;
 }) {
   const [dragStart, setDragStart] = useState(false);
 
@@ -116,9 +118,10 @@ export default function Column({
 
   return (
     <div
-      className={`group date flex flex-col w-64 ${
+      className={`group date flex flex-col ${
         dragStart ? "bg-gray-200 drop" : "bg-gray-100"
       } ${today ? "bg-amber-50" : weekEnd ? "bg-gray-50" : "bg-white"}`}
+      style={{ width: `${columnWidth}px` }}
       onDrop={onDrop}
       onDragOver={startDrop}
       onDragLeave={endDrop}
