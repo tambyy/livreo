@@ -9,13 +9,13 @@
   --purple: #5800b5;
   --light-purple: #f3f0f6;
 
-  --status-to-deliver: #cb234a;
+  --status-pending: #cb234a;
   --status-waiting: #cf720f;
   --status-processing: #0e72c9;
   --status-delivered: #0c7022;
   --status-canceled: #980c0a;
 
-  --fg-status-to-deliver: #cb234a11;
+  --fg-status-pending: #cb234a11;
   --fg-status-waiting: #cf720f11;
   --fg-status-processing: #0e72c911;
   --fg-status-delivered: #0c702211;
@@ -73,8 +73,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.delivery-status-to-deliver {
-  color: var(--status-to-deliver);
+.delivery-status-pending {
+  color: var(--status-pending);
 }
 
 .delivery-status-waiting {
@@ -93,9 +93,9 @@ body {
   color: var(--status-canceled);
 }
 
-.delivery-comment-status-to-deliver {
-  color: var(--status-to-deliver);
-  background-color: var(--fg-status-to-deliver);
+.delivery-comment-status-pending {
+  color: var(--status-pending);
+  background-color: var(--fg-status-pending);
 }
 
 .delivery-comment-status-waiting {

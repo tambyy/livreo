@@ -15,13 +15,13 @@ const config: Config = {
         purple: "var(--purple)",
         "light-purple": "var(--light-purple)",
 
-        "status-to-deliver": "var(--status-to-deliver)",
+        "status-pending": "var(--status-pending)",
         "status-waiting": "var(--status-waiting)",
         "status-processing": "var(--status-processing)",
         "status-delivered": "var(--status-delivered)",
         "status-canceled": "var(--status-canceled)",
 
-        "fg-status-to-deliver": "var(--fg-status-to-deliver)",
+        "fg-status-pending": "var(--fg-status-pending)",
         "fg-status-waiting": "var(--fg-status-waiting)",
         "fg-status-processing": "var(--fg-status-processing)",
         "fg-status-delivered": "var(--fg-status-delivered)",

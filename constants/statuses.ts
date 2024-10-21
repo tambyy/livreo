@@ -1,12 +1,12 @@
 const statuses = [
   {
-    key: "to_deliver",
+    key: "pending",
     name: "A livrer",
-    icon: "/images/statuses/to_deliver.svg",
+    icon: "/images/statuses/pending.svg",
   },
   {
     key: "waiting",
-    name: "En attente",
+    name: "En attente d livreur",
     icon: "/images/statuses/waiting.svg",
     count: 21,
   },

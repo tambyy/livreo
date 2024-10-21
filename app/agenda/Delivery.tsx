@@ -21,13 +21,13 @@ export default function Delivery({ delivery }: { delivery: DeliveryType }) {
   const warning =
     (time == "coming" && delivery.status == "delivered") ||
     (time != "coming" &&
-      (delivery.status == "to_deliver" ||
+      (delivery.status == "pending" ||
         delivery.status == "waiting" ||
         delivery.status == "received_by_delivery_person")) ||
     (time != "present" && delivery.status == "processing");
 
   return (
-    <div className="w-full flex flex-col text-xs rounded cursor-pointer bg-white">
+    <div className="w-full flex flex-col text-xs rounded cursor-pointer bg-white shadow-md border border-gray-300">
       {/* Header */}
       <div className="w-full flex flex-row p-2 gap-2 items-center border-b border-dashed border-b-gray-400">
         {/* Image */}

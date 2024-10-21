@@ -21,7 +21,7 @@ export default function Delivery({ delivery }: { delivery: DeliveryType }) {
   const warning =
     (time == "coming" && delivery.status == "delivered") ||
     (time != "coming" &&
-      (delivery.status == "to_deliver" ||
+      (delivery.status == "pending" ||
         delivery.status == "waiting" ||
         delivery.status == "received_by_delivery_person")) ||
     (time != "present" && delivery.status == "processing");
