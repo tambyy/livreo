@@ -12,6 +12,7 @@ export default function Column({
   itemDuration,
   itemStart,
   renderHeader,
+  renderCell,
   renderItem,
   onDropItem,
   onDragItem,
@@ -20,14 +21,20 @@ export default function Column({
   cellHeight,
   columnWidth,
 }: {
-  date: any;
+  date: Date;
   list: boolean;
   dateItems: (date: any) => any[];
   itemKey: (item: any) => number | string;
   itemStart: (item: any) => number;
   itemDuration: (item: any) => number;
-  renderHeader: (date: any) => React.ReactNode;
-  renderItem: (item: any) => React.ReactNode;
+  renderHeader?: (date: any) => React.ReactNode;
+  renderCell?: (
+    date: Date,
+    hour: number,
+    minute: number,
+    dragStart: boolean
+  ) => React.ReactNode;
+  renderItem: (item: any, zIndex: number) => React.ReactNode;
   onDropItem: (date: Date, hour: number, minute: number, item: any) => void;
   onDragItem: (item: any) => void;
   fromHour: number;
@@ -45,25 +52,33 @@ export default function Column({
     item,
     zIndex: 0,
   }));
-  items.forEach((item, j) => {
-    item.zIndex = 0;
+  if (!list) {
+    items.forEach((item, j) => {
+      item.zIndex = 0;
 
-    for (let i = j - 1; i >= 0; --i) {
-      const prevItem = items[i];
+      for (let i = j - 1; i >= 0; --i) {
+        const prevItem = items[i];
 
-      if (
-        itemStart(item.item) <
-        itemStart(prevItem.item) + itemDuration(prevItem.item)
-      ) {
-        item.zIndex = prevItem.zIndex + 1;
-        break;
+        if (
+          itemStart(item.item) <
+          itemStart(prevItem.item) + itemDuration(prevItem.item)
+        ) {
+          item.zIndex = prevItem.zIndex + 1;
+          break;
+        }
       }
-    }
-  });
+    });
+  }
 
+  /**
+   * Date is today
+   */
   const today =
     new Date().toISOString().substring(0, 10) ==
     date.toISOString().substring(0, 10);
+  /**
+   * Weekend days
+   */
   const weekEnd = date.getDay() == 0 || date.getDay() == 6;
 
   /**
@@ -119,8 +134,8 @@ export default function Column({
   return (
     <div
       className={`group date flex flex-col ${
-        dragStart ? "bg-gray-200 drop" : "bg-gray-100"
-      } ${today ? "bg-amber-50" : weekEnd ? "bg-gray-50" : "bg-white"}`}
+        today ? "bg-violet-50" : weekEnd ? "bg-gray-50" : "bg-white"
+      }`}
       style={{ width: `${columnWidth}px` }}
       onDrop={onDrop}
       onDragOver={startDrop}
@@ -128,7 +143,13 @@ export default function Column({
     >
       {/* Header */}
       <div className="w-full sticky top-0 z-10 border-b border-r border-gray-300">
-        {renderHeader(date)}
+        {renderHeader ? (
+          renderHeader(date)
+        ) : (
+          <div className="w-full h-8 flex items-center justify-center text-xs font-semibold">
+            {date.toISOString().substring(0, 10)}
+          </div>
+        )}
       </div>
 
       {/* Body */}
@@ -148,7 +169,7 @@ export default function Column({
           </div>
         )}
         <div
-          className={`w-full h-full flex flex-col px-1 group-[.calendar]:absolute group-[.dragging-item]:pointer-events-none`}
+          className={`w-full h-full flex flex-col group-[.calendar]:absolute group-[.dragging-item]:pointer-events-none`}
         >
           <div
             className={`w-full h-full flex flex-col gap-1 relative overflow-hidden hover:overflow-auto group-[.calendar]:overflow-visible`}
@@ -161,6 +182,7 @@ export default function Column({
                 zIndex={zIndex}
                 duration={itemDuration(item)}
                 start={itemStart(item) - fromHour * 60}
+                renderCell={renderCell}
                 renderItem={renderItem}
                 onDragItem={onDragItem}
               />

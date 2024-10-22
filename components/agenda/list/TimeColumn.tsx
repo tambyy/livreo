@@ -8,11 +8,13 @@ export default function TimeColumn({
   toHour,
   cellHeight,
   renderTimeHeader,
+  renderTime,
 }: {
   fromHour: number;
   toHour: number;
   cellHeight: number;
-  renderTimeHeader: ReactNode;
+  renderTimeHeader?: ReactNode;
+  renderTime?: (hour: number, minute: number) => React.ReactNode;
 }) {
   /**
    * List of time cells
@@ -36,7 +38,11 @@ export default function TimeColumn({
     <div className="flex flex-col w-11 sticky left-0 z-20">
       {/* Header */}
       <div className="w-full sticky top-0 z-10 border-b border-r border-gray-300">
-        {renderTimeHeader}
+        {renderTimeHeader ? (
+          renderTimeHeader
+        ) : (
+          <div className="w-full h-8 bg-white"></div>
+        )}
       </div>
 
       {/* Body */}
@@ -47,6 +53,7 @@ export default function TimeColumn({
             hour={timeCell.hour}
             minute={timeCell.minute}
             cellHeight={cellHeight}
+            renderTime={renderTime}
           />
         ))}
       </div>

@@ -14,6 +14,11 @@ const vehicleTypes = [
     name: "Voiture",
     icon: "/images/vehicle-types/car.svg",
   },
+  {
+    key: "truck",
+    name: "Voiture",
+    icon: "/images/vehicle-types/truck.svg",
+  },
 ];
 
 export default vehicleTypes;

@@ -76,7 +76,7 @@ const deliveries: DeliveryType[] = [
     vehicle: {
       id: 6,
       name: "Camion Toyota 5678 XYZ",
-      type: "camion",
+      type: "truck",
     },
   },
   {
@@ -298,7 +298,7 @@ const deliveries: DeliveryType[] = [
     vehicle: {
       id: 12,
       name: "Camion Iveco 9876 KLM",
-      type: "camion",
+      type: "truck",
     },
   },
   {
@@ -496,7 +496,7 @@ const deliveries: DeliveryType[] = [
     vehicle: {
       id: 18,
       name: "Camion Mercedes 8765 UVW",
-      type: "camion",
+      type: "truck",
     },
   },
   {

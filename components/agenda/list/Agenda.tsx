@@ -12,8 +12,10 @@ export default function Agenda({
   itemDuration = (item) => 0,
   itemStart = (item) => 0,
   renderHeader,
-  renderItem,
+  renderTime,
   renderTimeHeader,
+  renderCell,
+  renderItem,
   scrollThreshold = 200,
   list = false,
   fromHour = 8,
@@ -28,9 +30,16 @@ export default function Agenda({
   itemKey: (item: any) => number | string;
   itemDuration?: (item: any) => number;
   itemStart?: (item: any) => number;
-  renderHeader: (date: any) => React.ReactNode;
-  renderItem: (item: any) => React.ReactNode;
-  renderTimeHeader: React.ReactNode;
+  renderHeader?: (date: any) => React.ReactNode;
+  renderTime?: (hour: number, minute: number) => React.ReactNode;
+  renderTimeHeader?: React.ReactNode;
+  renderCell?: (
+    date: Date,
+    hour: number,
+    minute: number,
+    dragStart: boolean
+  ) => React.ReactNode;
+  renderItem: (item: any, zIndex: number) => React.ReactNode;
   scrollThreshold?: number;
   list?: boolean;
   fromHour?: number;
@@ -195,6 +204,7 @@ export default function Agenda({
       {!list && (
         <TimeColumn
           renderTimeHeader={renderTimeHeader}
+          renderTime={renderTime}
           fromHour={fromHour}
           toHour={toHour}
           cellHeight={cellHeight}
@@ -214,6 +224,7 @@ export default function Agenda({
             itemDuration={itemDuration}
             itemStart={itemStart}
             renderHeader={renderHeader}
+            renderCell={renderCell}
             renderItem={renderItem}
             onDropItem={(
               date: Date,

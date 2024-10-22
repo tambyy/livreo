@@ -44,13 +44,14 @@ export default function Agenda() {
           count={
             deliveryItems.filter(
               (delivery: DeliveryType) =>
-                delivery.deliver_at == date.toISOString().substring(0, 10)
+                delivery.deliver_at?.substring(0, 10) ==
+                date.toISOString().substring(0, 10)
             ).length
           }
         />
       )}
-      renderItem={(delivery: DeliveryType) => (
-        <Delivery key={delivery.id} delivery={delivery} />
+      renderItem={(delivery: DeliveryType, zIndex: number) => (
+        <Delivery key={delivery.id} delivery={delivery} zIndex={zIndex} />
       )}
       renderTimeHeader={<div className="w-full h-9 bg-white"></div>}
       onDropItem={(date, hour, minute, delivery: DeliveryType) => {

@@ -14,7 +14,7 @@ export default function Item({
   start: number;
   cellHeight: number;
   zIndex: number;
-  renderItem: (item: any) => React.ReactNode;
+  renderItem: (item: any, zIndex: number) => React.ReactNode;
   onDragItem: (item: any) => void;
 }) {
   const onDrag = (e) => {
@@ -24,11 +24,9 @@ export default function Item({
 
   return (
     <div
-      className="group-[.drop]:pointer-events-none left-0 group-[.calendar]:absolute"
+      className="w-full group-[.drop]:pointer-events-none left-0 group-[.calendar]:absolute"
       style={{
         top: `${(start * cellHeight) / 15}px`,
-        left: `${zIndex * 3}%`,
-        width: `${100 - zIndex * 5}%`,
         height: `${(duration * cellHeight) / 15}px`,
       }}
       draggable
@@ -38,7 +36,7 @@ export default function Item({
         e.stopPropagation();
       }}
     >
-      {renderItem(item)}
+      {renderItem(item, zIndex)}
     </div>
   );
 }

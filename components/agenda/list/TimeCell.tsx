@@ -7,12 +7,19 @@ export default function TimeCell({
   hour,
   minute,
   cellHeight,
+  renderCell,
   onDropItem,
 }: {
   date: Date;
   hour: number;
   minute: number;
   cellHeight: number;
+  renderCell?: (
+    date: Date,
+    hour: number,
+    minute: number,
+    dragStart: boolean
+  ) => React.ReactNode;
   onDropItem: (date: Date, hour: number, minute: number, item: any) => void;
 }) {
   const [dragStart, setDragStart] = useState(false);
@@ -37,17 +44,25 @@ export default function TimeCell({
 
   return (
     <div
-      className={`w-full border-b border-r border-r-gray-300 ${
-        minute == 0 || minute == 30
-          ? "border-gray-200"
-          : minute == 15
-          ? "border-gray-200 border-dashed"
-          : "border-gray-300"
-      } ${dragStart ? "outline outline-gray-400 z-10" : "outline-none"}`}
+      className="w-full"
       style={{ height: `${cellHeight}px` }}
       onDrop={onDrop}
       onDragOver={startDrop}
       onDragLeave={endDrop}
-    ></div>
+    >
+      {renderCell ? (
+        renderCell(date, hour, minute, dragStart)
+      ) : (
+        <div
+          className={`w-full h-full border-b border-r border-r-gray-300 ${
+            minute == 0 || minute == 30
+              ? "border-gray-200"
+              : minute == 15
+              ? "border-gray-200 border-dashed"
+              : "border-gray-300"
+          } ${dragStart ? "outline outline-gray-400 z-10" : "outline-none"}`}
+        ></div>
+      )}
+    </div>
   );
 }
