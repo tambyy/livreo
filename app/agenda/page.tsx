@@ -73,6 +73,12 @@ export default function Agenda() {
           )
         );
       }}
+      onDatesChanged={(from, to) => {
+        console.log(
+          from.toISOString().substring(0, 10),
+          to.toISOString().substring(0, 10)
+        );
+      }}
     />
   );
 }

@@ -12,14 +12,14 @@ export default function Menu({ menu }: { menu: MenuType }) {
         <Image
           src={menu.icon}
           alt="Next.js logo"
-          width={20}
-          height={20}
+          width={16}
+          height={16}
           priority
         />
       </span>
-      <span className="text-xs font-semibold flex-1">{menu.name}</span>
-      {menu.count && (
-        <span className="text-xs font-semibold bg-purple rounded-lg text-white px-1.5 py-0.5">
+      <span className="text-xs font-medium flex-1">{menu.name}</span>
+      {menu.count && menu.count > 0 && (
+        <span className="text-xs text-purple rounded-lg bg-violet-50 px-1.5 py-0.5">
           {menu.count}
         </span>
       )}

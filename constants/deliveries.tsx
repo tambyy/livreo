@@ -594,7 +594,7 @@ const deliveries: DeliveryType[] = [
     vehicle: {
       id: 20,
       name: "van Toyota 1234 XYZ",
-      type: "van",
+      type: "car",
     },
   },
   {
@@ -626,7 +626,7 @@ const deliveries: DeliveryType[] = [
     vehicle: {
       id: 21,
       name: "motorcycle Yamaha 5678 DEF",
-      type: "motorcycle",
+      type: "moto",
     },
   },
   {
@@ -722,7 +722,7 @@ const deliveries: DeliveryType[] = [
     vehicle: {
       id: 24,
       name: "van Mercedes 1234 OPQ",
-      type: "van",
+      type: "car",
     },
   },
   {
@@ -754,7 +754,7 @@ const deliveries: DeliveryType[] = [
     vehicle: {
       id: 25,
       name: "motorcycle Honda 2345 QRS",
-      type: "motorcycle",
+      type: "moto",
     },
   },
   {
@@ -818,7 +818,7 @@ const deliveries: DeliveryType[] = [
     vehicle: {
       id: 27,
       name: "van Fiat 8765 WXY",
-      type: "van",
+      type: "car",
     },
   },
   {
@@ -850,7 +850,7 @@ const deliveries: DeliveryType[] = [
     vehicle: {
       id: 28,
       name: "motorcycle Suzuki 4321 ABC",
-      type: "motorcycle",
+      type: "moto",
     },
   },
   {
@@ -914,7 +914,7 @@ const deliveries: DeliveryType[] = [
     vehicle: {
       id: 30,
       name: "van Renault 6789 STU",
-      type: "van",
+      type: "car",
     },
   },
   {

@@ -38,14 +38,14 @@ export default function Delivery({
   return (
     <div className="w-full flex flex-col px-1 relative">
       <div
-        className="w-full flex flex-col text-xs rounded cursor-pointer bg-white shadow-md border border-gray-300 relative"
+        className="w-full flex flex-col text-xs rounded cursor-pointer bg-indigo-50 relative"
         style={{
           left: `${zIndex * 3}%`,
           width: `${100 - zIndex * 5}%`,
         }}
       >
         {/* Header */}
-        <div className="w-full flex flex-row p-2 gap-2 items-center border-b border-dashed border-b-gray-400">
+        <div className="w-full flex flex-row p-2 gap-2 items-center border-b-gray-400">
           {/* Image */}
           <div className="w-10 h-10 rounded bg-gray-100">
             <Image

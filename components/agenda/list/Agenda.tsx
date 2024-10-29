@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Column from "./Column";
 import { flushSync } from "react-dom";
 import TimeColumn from "./TimeColumn";
@@ -9,8 +9,8 @@ export default function Agenda({
   date = new Date(),
   dateItems,
   itemKey,
-  itemDuration = (item) => 0,
-  itemStart = (item) => 0,
+  itemDuration = () => 0,
+  itemStart = () => 0,
   renderHeader,
   renderTime,
   renderTimeHeader,
@@ -21,32 +21,123 @@ export default function Agenda({
   fromHour = 8,
   toHour = 20,
   cellHeight = 24,
-  columnWidth = 256,
+  columnWidth = 280,
   onDatesChanged,
   onDropItem,
 }: {
+  /**
+   * Current agenda date
+   */
   date?: Date;
-  dateItems: (date: any) => any[];
+  /**
+   * Function that return a list of items
+   * that belong to a given date in param
+   *
+   * @param date date
+   */
+  dateItems: (date: Date) => any[];
+  /**
+   * Function that return the unique key
+   * for a given item in param
+   *
+   * @param item item
+   */
   itemKey: (item: any) => number | string;
+  /**
+   * Function that return the duration in minutes
+   * for a given item in param
+   *
+   * @param item item
+   */
   itemDuration?: (item: any) => number;
+  /**
+   * Function that return the start in minutes
+   * from 00:00 hour
+   * of a given item in param
+   *
+   * @param item item
+   */
   itemStart?: (item: any) => number;
-  renderHeader?: (date: any) => React.ReactNode;
+  /**
+   * Function that defines how to render the
+   * header of each column for each date given in param
+   *
+   * @param date date
+   */
+  renderHeader?: (date: Date) => React.ReactNode;
+  /**
+   * Function that defines how to render the
+   * time slot in the left for each given time(hour, minute)
+   *
+   * @param hour hour
+   * @param minute minute
+   */
   renderTime?: (hour: number, minute: number) => React.ReactNode;
+  /**
+   * Defines how to render the time slot header
+   */
   renderTimeHeader?: React.ReactNode;
+  /**
+   * Function that defines how to render each cell
+   * for each column of date
+   *
+   * @param date date
+   * @param hour hour
+   * @param minute minute
+   * @param dragStart an item is being dragged inside of the column
+   */
   renderCell?: (
     date: Date,
     hour: number,
     minute: number,
     dragStart: boolean
   ) => React.ReactNode;
+  /**
+   * Function that defines how to render each item
+   *
+   * @param item item
+   * @param zIndex if there are many items superposed with the item, it give the the z index of the current item in this superposition
+   */
   renderItem: (item: any, zIndex: number) => React.ReactNode;
+  /**
+   * When scrolling horizontally,
+   * this indicate, at how many pixels from the left or right
+   * we should append dates from the left or right
+   */
   scrollThreshold?: number;
+  /**
+   * If false,
+   * we display each column of the agenda as a calendar, with time slot
+   * else
+   * we display each column as just a list of items
+   */
   list?: boolean;
+  /**
+   * For calendar display,
+   * hour from which time slots begin
+   */
   fromHour?: number;
+  /**
+   * For calendar display,
+   * hour to which time slots end
+   */
   toHour?: number;
+  /**
+   * For calendar display,
+   * height of each column cell
+   */
   cellHeight?: number;
+  /**
+   * Width of each column
+   */
   columnWidth?: number;
+  /**
+   * Callback to call when dates(from and to) are updated
+   */
   onDatesChanged?: (from: Date, to: Date) => void;
+  /**
+   * Callback to call when item is dropped inside of a cell(date, hour, minute)
+   */
   onDropItem: (date: Date, hour: number, minute: number, item: any) => void;
 }) {
   // From date
@@ -68,7 +159,7 @@ export default function Agenda({
   /**
    * List of dates
    */
-  const dates = (() => {
+  const dates = useMemo(() => {
     const dates = [];
     const currentDate = new Date(from);
 
@@ -78,7 +169,7 @@ export default function Agenda({
     }
 
     return dates;
-  })();
+  }, [from, to]);
 
   // Container ref
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -91,7 +182,7 @@ export default function Agenda({
    *
    * @param count count of dates to unshift
    */
-  const unshiftDates = (count: number) => {
+  function unshiftDates(count: number) {
     if (!containerRef.current || !listRef.current) {
       return;
     }
@@ -118,7 +209,7 @@ export default function Agenda({
     flushSync(() => {
       setTo(toDate);
     });
-  };
+  }
 
   /**
    * Push dates
@@ -126,7 +217,7 @@ export default function Agenda({
    *
    * @param count count of dates to push
    */
-  const pushDates = (count: number) => {
+  function pushDates(count: number) {
     if (!containerRef.current || !listRef.current) {
       return;
     }
@@ -154,13 +245,13 @@ export default function Agenda({
 
     containerRef.current.scrollLeft =
       scrollLeft - listWidth + listRef.current.getBoundingClientRect().width;
-  };
+  }
 
   /**
    * Handle agenda scroll
    * @param e
    */
-  const handleScroll = (e) => {
+  function handleScroll(e) {
     const container = e.target;
     if (container.scrollLeft <= scrollThreshold) {
       unshiftDates(5);
@@ -173,7 +264,7 @@ export default function Agenda({
     ) {
       pushDates(5);
     }
-  };
+  }
 
   useEffect(() => {
     /**
@@ -193,6 +284,16 @@ export default function Agenda({
     centerScroll();
   }, []);
 
+  useEffect(() => {
+    const datesChanged = () => {
+      if (onDatesChanged) {
+        onDatesChanged(from, to);
+      }
+    };
+
+    datesChanged();
+  }, [onDatesChanged]);
+
   return (
     <div
       className={`w-full h-full flex flex-row flex-1 overflow-x-auto items-start group ${
@@ -210,8 +311,11 @@ export default function Agenda({
           cellHeight={cellHeight}
         />
       )}
+
       <div
-        className="h-auto flex flex-row bg-white relative items-start"
+        className={`${
+          list ? "h-full" : "h-auto"
+        } flex flex-row bg-white relative items-start`}
         ref={listRef}
       >
         {dates.map((date) => (
@@ -244,6 +348,7 @@ export default function Agenda({
             toHour={toHour}
             cellHeight={cellHeight}
             columnWidth={columnWidth}
+            draggedItem={draggedItem}
           />
         ))}
       </div>

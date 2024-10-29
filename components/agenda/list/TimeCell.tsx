@@ -55,10 +55,12 @@ export default function TimeCell({
       ) : (
         <div
           className={`w-full h-full border-b border-r border-r-gray-300 ${
-            minute == 0 || minute == 30
-              ? "border-gray-200"
+            minute == 0
+              ? "border-gray-100 font-semibold  border-dashed"
               : minute == 15
-              ? "border-gray-200 border-dashed"
+              ? "border-gray-100"
+              : minute == 30
+              ? "border-gray-100 border-dashed"
               : "border-gray-300"
           } ${dragStart ? "outline outline-gray-400 z-10" : "outline-none"}`}
         ></div>

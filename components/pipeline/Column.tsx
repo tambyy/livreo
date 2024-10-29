@@ -41,7 +41,7 @@ export default function Column({
   return (
     <div
       className={`group pipeline flex flex-col p-1 gap-1 w-64 rounded ${
-        dragStart ? "bg-gray-300 drop" : "bg-gray-200"
+        dragStart ? "bg-slate-200 drop" : "bg-slate-100"
       }`}
       onDrop={onDrop}
       onDragOver={startDrop}

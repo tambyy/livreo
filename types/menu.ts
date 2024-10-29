@@ -3,5 +3,5 @@ export default interface MenuType {
   name: string;
   icon: string;
   route: string;
-  count?: string;
+  count?: number;
 }

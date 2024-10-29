@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useMemo } from "react";
 import TimeSlot from "./TimeSlot";
 
 export default function TimeColumn({
@@ -20,7 +20,7 @@ export default function TimeColumn({
    * List of time cells
    * for calendar display
    */
-  const timeCells = (() => {
+  const timeCells = useMemo(() => {
     const tc = [];
     for (let i = fromHour; i < toHour; ++i) {
       for (let j = 0; j < 4; ++j) {
@@ -32,10 +32,10 @@ export default function TimeColumn({
     }
 
     return tc;
-  })();
+  }, [fromHour, toHour]);
 
   return (
-    <div className="flex flex-col w-11 sticky left-0 z-20">
+    <div className="flex flex-col sticky left-0 z-20">
       {/* Header */}
       <div className="w-full sticky top-0 z-10 border-b border-r border-gray-300">
         {renderTimeHeader ? (

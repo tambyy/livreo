@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Item from "./Item";
 import TimeCell from "./TimeCell";
 
@@ -20,6 +20,7 @@ export default function Column({
   toHour,
   cellHeight,
   columnWidth,
+  draggedItem,
 }: {
   date: Date;
   list: boolean;
@@ -41,6 +42,7 @@ export default function Column({
   toHour: number;
   cellHeight: number;
   columnWidth: number;
+  draggedItem: any;
 }) {
   const [dragStart, setDragStart] = useState(false);
 
@@ -48,27 +50,32 @@ export default function Column({
    * List of events
    * to display in the calendar
    */
-  const items = dateItems(date).map((item) => ({
-    item,
-    zIndex: 0,
-  }));
-  if (!list) {
-    items.forEach((item, j) => {
-      item.zIndex = 0;
+  const items = useMemo(() => {
+    const it = dateItems(date).map((item) => ({
+      item,
+      zIndex: 0,
+    }));
 
-      for (let i = j - 1; i >= 0; --i) {
-        const prevItem = items[i];
+    if (!list) {
+      it.forEach((item, j) => {
+        item.zIndex = 0;
 
-        if (
-          itemStart(item.item) <
-          itemStart(prevItem.item) + itemDuration(prevItem.item)
-        ) {
-          item.zIndex = prevItem.zIndex + 1;
-          break;
+        for (let i = j - 1; i >= 0; --i) {
+          const prevItem = it[i];
+
+          if (
+            itemStart(item.item) <
+            itemStart(prevItem.item) + itemDuration(prevItem.item)
+          ) {
+            item.zIndex = prevItem.zIndex + 1;
+            break;
+          }
         }
-      }
-    });
-  }
+      });
+    }
+
+    return it;
+  }, [date, dateItems, itemDuration, itemStart, list]);
 
   /**
    * Date is today
@@ -127,13 +134,13 @@ export default function Column({
     const item = e.dataTransfer.getData("item");
 
     if (item && onDropItem) {
-      onDropItem(date, JSON.parse(item));
+      // onDropItem(date, JSON.parse(item));
     }
   };
 
   return (
     <div
-      className={`group date flex flex-col ${
+      className={`group date flex flex-col ${list ? "h-full" : ""} ${
         today ? "bg-violet-50" : weekEnd ? "bg-gray-50" : "bg-white"
       }`}
       style={{ width: `${columnWidth}px` }}
@@ -154,6 +161,7 @@ export default function Column({
 
       {/* Body */}
       <div className="flex flex-col flex-1 relative">
+        {/* Cells */}
         {!list && (
           <div className="w-full h-full flex flex-col hover:overflow-auto group-[.calendar]:overflow-visible">
             {timeCells.map((timeCell) => (
@@ -168,8 +176,10 @@ export default function Column({
             ))}
           </div>
         )}
+
+        {/* Items */}
         <div
-          className={`w-full h-full flex flex-col group-[.calendar]:absolute group-[.dragging-item]:pointer-events-none`}
+          className={`w-full h-full flex flex-col group-[.calendar]:absolute pointer-events-none`}
         >
           <div
             className={`w-full h-full flex flex-col gap-1 relative overflow-hidden hover:overflow-auto group-[.calendar]:overflow-visible`}
@@ -182,7 +192,7 @@ export default function Column({
                 zIndex={zIndex}
                 duration={itemDuration(item)}
                 start={itemStart(item) - fromHour * 60}
-                renderCell={renderCell}
+                dragged={draggedItem && itemKey(item) == itemKey(draggedItem)}
                 renderItem={renderItem}
                 onDragItem={onDragItem}
               />

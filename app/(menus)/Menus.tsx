@@ -1,5 +1,7 @@
+import statuses from "@/constants/statuses";
 import menus from "../../constants/menus";
 import Menu from "./Menu";
+import Statuses from "./Statuses";
 
 export default function Menus() {
   return (
@@ -10,7 +12,7 @@ export default function Menus() {
         </h1>
       </div>
 
-      <div className="w-full flex-1 flex flex-col justify-center px-2 overflow-auto">
+      <div className="w-full flex-1 flex flex-col px-2 overflow-auto">
         {menus.map((bloc, i) => (
           <div
             key={i}
@@ -21,6 +23,7 @@ export default function Menus() {
             ))}
           </div>
         ))}
+        <Statuses />
       </div>
 
       <div className="w-full px-4 py-3 flex flex-row border-t border-t-slate-200 items-center gap-2">

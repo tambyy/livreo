@@ -56,10 +56,6 @@ const menus: MenuType[][] = [
       route: "/settings",
     },
   ],
-  statuses.map((status) => ({
-    ...status,
-    route: "/",
-  })),
 ];
 
 export default menus;
